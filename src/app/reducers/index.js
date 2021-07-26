@@ -1,15 +1,10 @@
 import { combineReducers } from 'redux';
 
+import authReducer from './auth_reducer'
+
 const reducers = combineReducers({
-    root: (state, action) => state || {}
-    /*  auth: authReducer,
-    pedido: pedidoReducer,
-    cliente: clienteReducer,
-    categoria: categoriaReducer,
-    produto: produtoReducer,
-    variacao: variacaoReducer,
-    avaliacao: avaliacaoReducer,
-    configuracao: configuracaoReducer */
+    auth: authReducer
+   
 });
 
 export default reducers;
