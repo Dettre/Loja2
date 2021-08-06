@@ -5,44 +5,17 @@ import {
   
 } from './types';
 import { api, versao } from '../config';
-
-const saveToken = (usuario, opcaoLembrar) =>{
-    if(!usuario.token) return null;
-    const [token1, token2, token3 ] = usuario.token.split(".")
-    localStorage.setItem("token1", token1)
-    localStorage.setItem("token2", token2)
-    localStorage.setItem("token3", token3)
-    localStorage.setItem("opcaoLembrar", opcaoLembrar)
-
-}
-
-const cleanToken = () =>{
-    localStorage.removeItem("token1")
-    localStorage.removeItem("token2")
-    localStorage.removeItem("token3")
-    localStorage.removeItem("opcaoLembrar")
-}
-
-const getToken = () =>{
-  const token1 = localStorage.getItem("token1")
-  const token2 = localStorage.getItem("token2")
-  const token3 = localStorage.getItem("token3")
-  if(!token1 || !token2 || !token3) return null
-  return `${token1}.${token2}.${token3}`
-}
-
-const getHeaders = () =>{
-    return {
-        "headers" : {
-            "authorization" : `Ecommerce ${getToken()}`
-        }
-    }
-}
+import { saveToken, getHeaders, cleanToken } from './localStorage';
+import errorHandling from './errorHandling'
+import moment from 'moment';
 
 export const initApp = () => {
     const opcaoLembrar = localStorage.getItem("opcaoLembrar");
     if(opcaoLembrar === "false") cleanToken();
 }
+
+
+
 
 // USUARIOS
 export const handleLogin = ({ email, password, opcaoLembrar}, callback) => {
@@ -52,9 +25,8 @@ export const handleLogin = ({ email, password, opcaoLembrar}, callback) => {
             saveToken(response.data.usuario, opcaoLembrar)
             dispatch({ type: LOGIN_USER, payload: response.data })
            })
-        .catch((error) => {
-            console.log(error, error.response, error.response.data)
-        });
+        .catch((e) => callback(errorHandling(e)))
+       
     }
 }
 
@@ -68,8 +40,31 @@ export const getUser = () => {
         .catch((error) => console.log(error, error.response, error.response && error.response.data));
     }
 }
+export const updateUser = (dados, cb) => {
+    return function(dispatch){
+        axios.put(`${api}/${versao}/api/usuarios/`, dados, getHeaders())
+        .then((response) => {
+            saveToken(response.data.usuario, true);
+            dispatch({ type: LOGIN_USER, payload: response.data });
+            cb(null);
+        })
+        .catch((error) => cb(errorHandling(error)) );
+    }
+}
 
 export const handleLogout = () => {
     cleanToken();
     return { type: LOGOUT_USER };
+}
+
+export const formatMoney = (valor) => {
+    return `R$ ${valor.toFixed(2).split(".").join(",")}`
+}
+
+export const transformeDate = (data, divisor, formato) => { 
+    const _data = data.split(divisor);
+    const dia = Number( _data[0] ) + 1;
+    const mes = Number( _data[1] ) - 1;
+    const ano = Number( _data[2] );
+    return moment(new Date(ano, mes, dia)).format(formato);
 }

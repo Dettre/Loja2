@@ -6,56 +6,57 @@ import Pesquisa from '../../components/Inputs/Pesquisa';
 import Tabela from '../../components/Tabela/Simples';
 import Paginacao from '../../components/Paginacao/Simples';
 
+import { connect } from "react-redux";
+import * as actions from "../../actions/clientes";
 
 class Clientes extends Component {
 
     state = {
         pesquisa: "",
-     
-        limit: 5
+        atual: 0,
+        limit: 3
+    }
+
+    getClientes(){
+        const { atual, limit, pesquisa } = this.state;
+        const { usuario } = this.props;
+
+        if(!usuario) return null;
+        const loja = usuario.loja;
+
+        if(pesquisa) this.props.getClientesPesquisa(pesquisa, atual, limit, loja);
+        else this.props.getClientes(atual, limit, loja);
+    }
+
+    componentDidMount(){
+        this.getClientes();
+    }
+    componentDidUpdate(prevProps){
+        if(!prevProps.usuario && this.props.usuario) this.getClientes();
+    }
+
+    handleSubmitPesquisa(){
+        this.setState({ atual: 0 }, () => this.getClientes())
     }
 
     onChangePesquisa = (ev) => this.setState({ pesquisa: ev.target.value })
 
-    changeNumeroAtual = (atual) => this.setState({ atual })
+    changeNumeroAtual = (atual) => this.setState({ atual }, () => this.getClientes());
 
     render(){
         const { pesquisa } = this.state;
+        const { clientes } = this.props;
 
-      const dados = [
-          {
-              "Cliente": "Cliente 1",
-              "E-mail": "cliente1@teste.com",
-              "Telefone": "21 965602966",
-              "CPF": "111.222.333-89",
-              "botaoDetalhes": "/cliente/cliente1@teste.com"
-
-          },
-          {
-            "Cliente": "Cliente 2",
-            "E-mail": "cliente2@teste.com",
-            "Telefone": "21 965602966",
-            "CPF": "111.222.333-89",
-            "botaoDetalhes": "/cliente/cliente2@teste.com"
-
-        },
-        {
-            "Cliente": "Cliente 3",
-            "E-mail": "cliente3@teste.com",
-            "Telefone": "21 965602966",
-            "CPF": "111.222.333-89",
-            "botaoDetalhes": "/cliente/cliente3@teste.com"
-
-        },
-        {
-            "Cliente": "Cliente 4",
-            "E-mail": "cliente4@teste.com",
-            "Telefone": "21 965602966",
-            "CPF": "111.222.333-89",
-            "botaoDetalhes": "/cliente/cliente4@teste.com"
-
-        },
-      ]
+        const dados = [];
+        ( clientes ? clientes.docs : [] ).forEach((item) => {
+            dados.push({
+                "Cliente": item.nome,
+                "E-mail": item.usuario ? item.usuario.email : "",
+                "Telefone": item.telefones[0],
+                "CPF": item.cpf,
+                "botaoDetalhes": `/cliente/${item._id}`
+            });
+        });
 
         return (
             <div className="Clientes full-width">
@@ -66,15 +67,15 @@ class Clientes extends Component {
                         valor={pesquisa}
                         placeholder={"Pesquisa aqui pelo nome do cliente..."}
                         onChange={(ev) => this.onChangePesquisa(ev)}
-                        onClick={() => alert("Pesquisar")} />
+                        onClick={() => this.handleSubmitPesquisa()} />
                     <br />
                     <Tabela 
                         cabecalho={["Cliente", "E-mail", "Telefone", "CPF"]}
                         dados={dados} />
                     <Paginacao 
                         atual={this.state.atual} 
-                        total={120} 
-                        limite={20} 
+                        total={clientes ? clientes.total : 0 } 
+                        limite={this.state.limit} 
                         onClick={(numeroAtual) => this.changeNumeroAtual(numeroAtual)} />
                 </div>
             </div>
@@ -82,4 +83,9 @@ class Clientes extends Component {
     }
 }
 
-export default Clientes;
+const mapStateToProps = state => ({
+    clientes: state.cliente.clientes,
+    usuario: state.auth.usuario
+})
+
+export default connect(mapStateToProps, actions)(Clientes);
