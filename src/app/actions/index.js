@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {
     LOGIN_USER,
-    LOGOUT_USER 
-  
+    LOGOUT_USER
 } from './types';
 import { api, versao } from '../config';
 import { saveToken, getHeaders, cleanToken } from './localStorage';
-import errorHandling from './errorHandling'
+import errorHandling from "./errorHandling";
 import moment from 'moment';
 
 export const initApp = () => {
@@ -14,19 +13,15 @@ export const initApp = () => {
     if(opcaoLembrar === "false") cleanToken();
 }
 
-
-
-
 // USUARIOS
-export const handleLogin = ({ email, password, opcaoLembrar}, callback) => {
+export const handleLogin = ({ email, password, opcaoLembrar }, callback) => {
     return function(dispatch){
         axios.post(`${api}/${versao}/api/usuarios/login`, { email, password })
         .then((response) => {
-            saveToken(response.data.usuario, opcaoLembrar)
-            dispatch({ type: LOGIN_USER, payload: response.data })
-           })
-        .catch((e) => callback(errorHandling(e)))
-       
+            saveToken(response.data.usuario, opcaoLembrar);
+            dispatch({ type: LOGIN_USER, payload: response.data });
+        })
+        .catch((e) => callback(errorHandling(e)));
     }
 }
 
@@ -40,6 +35,7 @@ export const getUser = () => {
         .catch((error) => console.log(error, error.response, error.response && error.response.data));
     }
 }
+
 export const updateUser = (dados, cb) => {
     return function(dispatch){
         axios.put(`${api}/${versao}/api/usuarios/`, dados, getHeaders())

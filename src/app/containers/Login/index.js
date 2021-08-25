@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-//port { Link} from 'react-router-dom';
 
 import Titulo from '../../components/Texto/Titulo';
-
 
 import Input from '../../components/Inputs/Simples';
 import Checkbox from '../../components/Inputs/Checkbox';
@@ -11,10 +9,9 @@ import Button from '../../components/Button/Simples';
 
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import {api, versao} from "../../config"
+import { api, versao } from '../../config';
 
-import Alert from '../../components/Alert/Danger'
-
+import Alert from '../../components/Alert/Danger';
 
 class Login extends Component {
 
@@ -23,7 +20,6 @@ class Login extends Component {
         senha: "",
         opcaoLembrar: true,
         erros: {}
-      
     }
 
     onChangeInput = (field, ev) => {
@@ -35,9 +31,9 @@ class Login extends Component {
     handleLogin(){
         const { email, senha: password, opcaoLembrar } = this.state;
         if(!this.validate()) return;
+
         this.props.handleLogin({email, password, opcaoLembrar}, (error) => {
-            
-            this.setState({erros: { ...this.state.erros, form: error}})
+            this.setState({ erros: { ...this.state.erros, form: error } });
         })
     }
 
@@ -64,8 +60,10 @@ class Login extends Component {
                     </div>
 
                     <br /><br />
-                <Alert error={erros.form}/>
-                   <Input
+
+                    <Alert error={erros.form} />
+
+                    <Input
                         label="E-mail"
                         value={email}
                         type="email"
@@ -87,22 +85,20 @@ class Login extends Component {
                                 label="Lembrar?" />
                         </div>
                         <div className="flex-1 flex flex-end">
-                          {/*   <Link to="/recuperar-senha"><small>Esqueceu sua senha?</small></Link>*/}
-                           <a href={`${api}/${versao}/api/usuarios/recuperar-senha`}>
-                               <small>
-                               Esqueceu sua senha
-                               </small>
-                           </a>
-
-                           
-                           </div>
+                            {/* <Link to="/recuperar-senha"><small>Esqueceu sua senha?</small></Link> */}
+                            <a href={`${api}/${versao}/api/usuarios/recuperar-senha`}>
+                                <small>
+                                    Esqueceu sua senha?
+                                </small>
+                            </a>
+                        </div>
                     </div>
 
                     <br /><br />
+
                     <div className="flex flex-center">
-                        <Button type="success" label="ENTRAR" onClick={() => this.handleLogin()}/>
+                        <Button type="success" label="ENTRAR" onClick={() => this.handleLogin()} />
                     </div>
-                    
                 </div>
             </div>
         )
@@ -110,4 +106,3 @@ class Login extends Component {
 }
 
 export default connect(null, actions)(Login);
-

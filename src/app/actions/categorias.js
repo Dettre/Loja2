@@ -8,7 +8,6 @@ import {
     LIMPAR_CATEGORIA,
     REMOVE_CATEGORIA,
     GET_CATEGORIA_PRODUTOS
-
 } from './types';
 
 export const getCategorias = (loja) => {
@@ -18,6 +17,7 @@ export const getCategorias = (loja) => {
         .catch(errorHandling);
     }
 }
+
 export const salvarCategoria = (categoria, loja, cb) => {
     return function(dispatch){
         axios.post(`${api}/${versao}/api/categorias?loja=${loja}` , {

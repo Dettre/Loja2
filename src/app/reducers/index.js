@@ -1,15 +1,13 @@
 import { combineReducers } from 'redux';
 
-import authReducer from './auth_reducer'
-import pedidoReducer from './pedido_reducer'
-import clienteReducer from './cliente_reducer'
-import categoriaReducer from './categoria_reducer'
+import authReducer from './auth_reducer';
+import pedidoReducer from './pedido_reducer';
+import clienteReducer from './cliente_reducer';
+import categoriaReducer from './categoria_reducer';
 import produtoReducer from './produto_reducer';
-import variacaoReducer from './variacao_reducer'
-import avaliacaoReducer from './avaliacao_reducer'
-import configuracaoReducer from './configuracao_reducer'
-
-
+import variacaoReducer from './variacao_reducer';
+import avaliacaoReducer from './avaliacao_reducer';
+import configuracaoReducer from './configuracao_reducer';
 
 const reducers = combineReducers({
     auth: authReducer,
@@ -19,11 +17,7 @@ const reducers = combineReducers({
     produto: produtoReducer,
     variacao: variacaoReducer,
     avaliacao: avaliacaoReducer,
-    confiduracao: configuracaoReducer
-
-
-
-   
+    configuracao: configuracaoReducer
 });
 
 export default reducers;

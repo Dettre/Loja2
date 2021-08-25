@@ -1,6 +1,6 @@
 import React from 'react';
 import Titulo from '../Texto/Titulo';
-import {api} from '../../config'
+import { api } from '../../config';
 
 class BlocoImagem extends React.Component {
     render(){
@@ -8,13 +8,13 @@ class BlocoImagem extends React.Component {
         return (
             <div className="Bloco-Imagem">
                 <div className="flex horizontal">
-                   <Titulo tipo="h3" titulo="Imagens" />
+                    <Titulo tipo="h3" titulo="Imagens" />
                 </div>
                 <div className="flex vertical">
                     <label><strong>Insira aqui uma nova imagem:&nbsp;</strong></label>
                     <input type="file" onChange={handleSubmit} />
                 </div>
-                <hr/> <br/>
+                <hr /><br />
                 <div className="imagens-container">
                     {
                         imagens.map((src, idx) => (

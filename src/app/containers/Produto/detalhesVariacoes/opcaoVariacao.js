@@ -36,15 +36,15 @@ class OpcaoVariacao extends Component {
         }
     }
 
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if(
-            ( !prevProps.variacao && this.props.variacao ) ||
-            ( prevProps.variacao && this.props.variacao &&
-                prevProps.variacao.updatedAt !== this.props.variacao.updatedAt )
-        ) this.setState(this.generateStateVariacao(this.props));
+            ( !this.props.variacao && nextProps.variacao ) ||
+            ( this.props.variacao && nextProps.variacao &&
+              this.props.variacao.updatedAt !== nextProps.variacao.updatedAt )
+        ) this.setState(this.generateStateVariacao(nextProps));
     }
 
-    componentDidUnmount(){
+    componentWillUnmount(){
         this.props.limparVariacao();
     }
 

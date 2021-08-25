@@ -14,7 +14,7 @@ class ListaDinamicaSimples extends React.Component {
     }
 
     render(){
-        const { dados,onRemove } = this.props;
+        const { dados, onRemove } = this.props;
         const { texto } = this.state;
         return (
             <div className="flex vertical">
@@ -38,7 +38,7 @@ class ListaDinamicaSimples extends React.Component {
                         </div>
                     ))
                 }
-                <div  className="flex">
+                <div className="flex">
                     <div className="flex flex-start">
                         <InputSimples
                             type="text"

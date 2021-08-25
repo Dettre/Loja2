@@ -2,7 +2,6 @@ import React from 'react';
 
 const Paginacao = ({ total, atual, limite, onClick }) => {
     const numeroPaginas = Math.ceil(total / limite);
-    const paginaAtual = Math.floor(atual / limite)+ 1; 
     return (
         <div className="Paginacao flex horizontal">
             {
@@ -10,7 +9,7 @@ const Paginacao = ({ total, atual, limite, onClick }) => {
                     const numeroAtualDaPagina = numero * limite;
                     return (
                         <div 
-                            className={`paginacao-item ${numeroAtualDaPagina === paginaAtual ? "paginacao-item-active" :""}`}
+                            className={`paginacao-item ${numeroAtualDaPagina === atual ? "paginacao-item-active" :""}`}
                             onClick={() => onClick(numeroAtualDaPagina)}
                             key={idx}>
                             { numero + 1 }
@@ -23,5 +22,3 @@ const Paginacao = ({ total, atual, limite, onClick }) => {
 }
 
 export default Paginacao;
-
-   

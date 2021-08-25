@@ -24,11 +24,11 @@ class DetalhesDosPedidos extends Component {
         this.props.getClientePedidos(id, atual, limit, usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getPedidos();
     }
-    componentDidUpdate(prevProps){
-        if(!prevProps.usuario && this.props.usuario) this.getPedidos();
+    componentWillUpdate(nextProps){
+        if(!this.props.usuario && nextProps.usuario) this.getPedidos();
     }
 
     changeNumeroAtual = atual => this.setState({ atual }, () => this.getPedidos())
@@ -64,7 +64,7 @@ class DetalhesDosPedidos extends Component {
         )
     }
 }
-        
+
 const mapStateToProps = state => ({
     usuario: state.auth.usuario,
     clientePedidos: state.cliente.clientePedidos

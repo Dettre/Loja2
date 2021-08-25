@@ -8,13 +8,11 @@ import Paginacao from '../../components/Paginacao/Simples';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/categorias';
 
-
 class ListaDeProdutos extends Component {
 
     state = {
         atual: 0,
         limit: 5
-        
     }
 
     getCategoriaProdutos(props){
@@ -24,22 +22,21 @@ class ListaDeProdutos extends Component {
         this.props.getCategoriaProdutos(categoria._id, atual, limit, usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getCategoriaProdutos(this.props);
     }
 
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if(
-            ( !prevProps.usuario && this.props.usuario ) ||
-            ( !prevProps.categoria && this.props.categoria )
-        ) this.getCategoriaProdutos(this.props);
+            ( !this.props.usuario && nextProps.usuario ) ||
+            ( !this.props.categoria && nextProps.categoria )
+        ) this.getCategoriaProdutos(nextProps);
     }
-
 
     changeNumeroAtual = (atual) => this.setState({ atual }, () => this.getCategoriaProdutos(this.props));
 
     render(){
-       
+        
         const { categoriaProdutos } = this.props;
 
         const dados = [];
@@ -50,8 +47,7 @@ class ListaDeProdutos extends Component {
                 "Disponibilidade": item.disponibilidade ? "Disponível" : "Indisponível",
                 "botaoDetalhes": `/produto/${item._id}`
             });
-
-    })
+        });
 
         return (
             <div className="ListaDeProdutos">
@@ -67,7 +63,6 @@ class ListaDeProdutos extends Component {
                     limite={this.state.limit} 
                     onClick={(numeroAtual) => this.changeNumeroAtual(numeroAtual)} />
             </div>
-            
         )
     }
 }
@@ -79,4 +74,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, actions)(ListaDeProdutos);
-

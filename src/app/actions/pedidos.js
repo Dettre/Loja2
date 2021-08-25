@@ -7,9 +7,7 @@ import {
     GET_PEDIDO,
     LIMPAR_PEDIDO,
     CANCELAR_PEDIDO
-  
 } from './types';
-
 
 export const getPedidos = (atual, limit, loja) => {
     return function(dispatch){

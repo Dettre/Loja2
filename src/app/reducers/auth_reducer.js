@@ -3,22 +3,21 @@ import {
     LOGOUT_USER
 } from '../actions/types';
 
-export default (state = {}, action)=>{
+export default (state = {}, action) => {
     switch(action.type){
         case LOGIN_USER:
-        return {
-            ...state,
-            usuario: action.payload.usuario,
-            authorized: true
-        }
+            return {
+                ...state,
+                usuario: action.payload.usuario,
+                authorized: true
+            }
         case LOGOUT_USER:
-        return {
-            ...state,
-            usuario:null,
-            authorized: false
-        }
-        
+            return {
+                ...state,
+                usuario: null,
+                authorized: false
+            }
         default:
-            return state 
+            return state;
     }
 }

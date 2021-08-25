@@ -4,6 +4,7 @@ import ButtonSimples from '../../components/Button/Simples';
 import { TextoDados } from '../../components/Texto/Dados';
 import InputValor from '../../components/Inputs/InputValor';
 import InputSelect from '../../components/Inputs/Select';
+
 import Voltar from '../../components/Links/Voltar';
 
 import { connect } from 'react-redux';
@@ -11,7 +12,7 @@ import AlertGeral from '../../components/Alert/Geral';
 import * as actions from '../../actions/categorias';
 
 class DetalhesCategoria extends Component {
- 
+
     generateStateCategoria = (props) => ({
         nome: props.categoria ? props.categoria.nome : "",
         disponibilidade: props.categoria ? 
@@ -27,62 +28,63 @@ class DetalhesCategoria extends Component {
             erros: {},
             aviso: null
         }
-       }
-         componentDidUpdate(prevProps){
-            if(
-                ( !prevProps.categoria && this.props.categoria ) ||
-                ( 
-                    prevProps.categoria && 
-                    this.props.categoria && 
-                    prevProps.categoria.updatedAt !== this.props.categoria.updatedAt 
-                )
-            ) this.setState(this.generateStateCategoria(this.props));
-        }
+    }
 
-        salvarCategoria(){
-            const { usuario, categoria } = this.props;
-            if( !usuario || !categoria ) return null;
-            if( !this.validate() ) return null;
-            this.props.updateCategoria(this.state, categoria._id, usuario.loja, (error) => {
-                this.setState({
-                    aviso: {
-                        status: !error,
-                        msg: error ? error.message : "Categoria atualizada com sucesso"
-                    }
-                });
-            });
-        }
+    componentWillUpdate(nextProps){
+        if(
+            ( !this.props.categoria && nextProps.categoria ) ||
+            ( 
+                this.props.categoria && 
+                nextProps.categoria && 
+                this.props.categoria.updatedAt !== nextProps.categoria.updatedAt 
+            )
+        ) this.setState(this.generateStateCategoria(nextProps));
+    }
 
-        removerCategoria(){
-            const { usuario, categoria } = this.props;
-            if( !usuario || !categoria ) return null;
-    
-            if(!window.confirm("Você realmente deseja remover essa categoria?")) return;
-    
-            this.props.removerCategoria(categoria._id, usuario.loja, (error) => {
-                if(error) this.setState({ aviso: { status: false, msg: error.message } });
-                else this.props.history.goBack();
+    salvarCategoria(){
+        const { usuario, categoria } = this.props;
+        if( !usuario || !categoria ) return null;
+        if( !this.validate() ) return null;
+        this.props.updateCategoria(this.state, categoria._id, usuario.loja, (error) => {
+            this.setState({
+                aviso: {
+                    status: !error,
+                    msg: error ? error.message : "Categoria atualizada com sucesso"
+                }
             });
-        }
+        });
+    }
+
+    removerCategoria(){
+        const { usuario, categoria } = this.props;
+        if( !usuario || !categoria ) return null;
+
+        if(!window.confirm("Você realmente deseja remover essa categoria?")) return;
+
+        this.props.removerCategoria(categoria._id, usuario.loja, (error) => {
+            if(error) this.setState({ aviso: { status: false, msg: error.message } });
+            else this.props.history.goBack();
+        });
+    }
 
     renderCabecalho(){
         const { nome } = this.state;
         return (
             <div className="flex">
-            <div className="flex-1 flex">
-                <Titulo tipo="h1" titulo={nome} />
+                <div className="flex-1 flex">
+                    <Titulo tipo="h1" titulo={nome} />
+                </div>
+                <div className="flex-1 flex flex-end">
+                    <ButtonSimples 
+                            onClick={() => this.salvarCategoria()}
+                            type="success"
+                            label="Salvar" />
+                    <ButtonSimples
+                        onClick={()=> this.removerCategoria()}
+                        type="danger"
+                        label="Remover" />
+                </div>
             </div>
-            <div className="flex-1 flex flex-end">
-                <ButtonSimples 
-                        onClick={() => this.salvarCategoria()}
-                        type="success"
-                        label="Salvar" />
-                <ButtonSimples
-                    onClick={()=> this.removerCategoria()}
-                    type="danger"
-                    label="Remover" />
-            </div>
-        </div>
         )
     }
 
@@ -100,7 +102,6 @@ class DetalhesCategoria extends Component {
         this.setState({ erros });
         return !( Object.keys(erros).length > 0 );
     }
-
 
     renderDados(){
         const { nome, disponibilidade, codigo, erros } = this.state;
@@ -138,7 +139,6 @@ class DetalhesCategoria extends Component {
             </div>
         )
     }
-
 
     render(){
         return (

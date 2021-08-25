@@ -8,7 +8,7 @@ import * as actions from '../../actions/clientes';
 
 class Cliente extends Component {
 
-    componentDidMount(){
+    componentWillMount(){
         const { usuario } = this.props;
         const { id } = this.props.match.params;
         if(!usuario) return null;;
@@ -19,17 +19,16 @@ class Cliente extends Component {
         this.props.limparCliente();
     }
 
-
     render(){
         return (
             <div className="Cliente full-width flex vertical">
-            <div className="Card">
-                <DetalhesDoCliente history={this.props.history} />
+                <div className="Card">
+                    <DetalhesDoCliente history={this.props.history} />
+                </div>
+                <div className="Sub-Card">
+                    <DetalhesDosPedidos id={this.props.match.params.id} />
+                </div>
             </div>
-            <div className="Sub-Card">
-                <DetalhesDosPedidos id={this.props.match.params.id} />
-            </div>
-        </div>
         )
     }
 }

@@ -8,7 +8,7 @@ import * as actions from '../../actions/categorias';
 
 class Categoria extends Component {
 
-    componentDidMount(){
+    componentWillMount(){
         const { usuario } = this.props;
         const { id } = this.props.match.params;
         if(!usuario || !id) return null;
@@ -21,16 +21,14 @@ class Categoria extends Component {
 
     render(){
         return (
-            <div className="Categoria full-width">
+            <div className="Categoria full-width">
                 <div className="Card">
                     <div>
-                    <DetalhesCategoria history={this.props.history} />
+                        <DetalhesCategoria history={this.props.history} />
                     </div>
-                    
-<div>
+                    <div>
                         <ListaDeProdutos />
                     </div>
-                    
                 </div>
             </div>
         )

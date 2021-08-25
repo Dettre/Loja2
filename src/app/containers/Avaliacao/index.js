@@ -17,14 +17,14 @@ class Avaliacao extends Component {
         const { id: avaliacao } = props.match.params;
         this.props.getAvaliacao(avaliacao, produto._id, usuario.loja);
     }
-    componentDidMount(){
+    componentWillMount(){
         this.getAvaliacao(this.props);
     }
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if( 
-            ( !prevProps.usuario || !prevProps.produto ) &&
-            this.props.usuario && this.props.produto
-        ) this.getAvaliacao(this.props);
+            ( !this.props.usuario || !this.props.produto ) &&
+            nextProps.usuario && nextProps.produto
+        ) this.getAvaliacao(nextProps);
     }
     componentWillUnmount(){
         this.props.limparAvaliacao();

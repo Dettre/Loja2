@@ -17,14 +17,14 @@ class Variacoes extends Component {
         getVariacoes(produto._id, usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getVariacoes(this.props);
     }
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if( 
-            ( !prevProps.usuario || !prevProps.produto ) &&
-            this.props.usuario && this.props.produto
-        ) this.getVariacoes(this.props);
+            ( !this.props.usuario || !this.props.produto ) &&
+            nextProps.usuario && nextProps.produto
+        ) this.getVariacoes(nextProps);
     }
 
     getVariacao(id){

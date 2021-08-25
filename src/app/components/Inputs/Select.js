@@ -10,6 +10,5 @@ export default ({ value, name, opcoes, onChange, error }) => (
             }
         </select>
         { error && (<small className="small-danger">{error}</small>) }
-
     </div>
 )

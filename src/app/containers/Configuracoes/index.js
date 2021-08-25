@@ -38,12 +38,12 @@ class Configuracoes extends Component {
         this.props.getConfiguracao(usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getConfiguracao(this.props);
     }
-    componentDidUpdate(prevProps){
-        if( !prevProps.usuario && this.props.usuario ) this.getConfiguracao(this.props);
-        if( !prevProps.loja && this.props.loja ) this.setState(this.generateStateConfiguracao(this.props));
+    componentWillUpdate(nextProps){
+        if( !this.props.usuario && nextProps.usuario ) this.getConfiguracao(nextProps);
+        if( !this.props.loja && nextProps.loja ) this.setState(this.generateStateConfiguracao(nextProps));
     }
 
     updateLoja(){
@@ -154,21 +154,21 @@ class Configuracoes extends Component {
                     chave="Cidade"
                     valor={(
                         <InputValor
-                            value={cidade} name="cidade" noStyle erro={erros.cidade}
+                            value={cidade} name="cidade" noStyle erro={erros.endereco}
                             handleSubmit={(valor) => this.handleSubmit( "cidade", valor )} />
                     )} />
                 <TextoDados 
                     chave="Estado"
                     valor={(
                         <InputValor
-                            value={estado} name="estado" noStyle erro={erros.estado}
+                            value={estado} name="estado" noStyle erro={erros.endereco}
                             handleSubmit={(valor) => this.handleSubmit( "estado", valor )} />
                     )} />
                 <TextoDados 
                     chave="CEP"
                     valor={(
                         <InputValor
-                            value={cep} name="cep" noStyle erro={erros.cep}
+                            value={cep} name="cep" noStyle erro={erros.endereco}
                             handleSubmit={(valor) => this.handleSubmit( "cep", valor )} />
                     )} />
             </div>
@@ -227,7 +227,7 @@ class Configuracoes extends Component {
 }
 
 const mapStateToProps = state => ({
-  //  loja: state.configuracao.loja,
+    loja: state.configuracao.loja,
     usuario: state.auth.usuario
 });
 

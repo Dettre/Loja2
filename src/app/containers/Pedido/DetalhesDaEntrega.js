@@ -10,19 +10,18 @@ import AlertGeral from '../../components/Alert/Geral';
 
 class DetalhesDaEntrega extends Component {
     state = {
-        status: null
-    }  
+        aviso: null
+    }
 
     cleanState(){
         this.setState({ aviso: null })
     }
 
     onAddListaDinamica = (texto) => {
-        
         if(!texto) return this.setState({ aviso: { status: false, msg: "Preencha o campo para enviar um novo status" } });
         this.setNovoStatus(texto, undefined);
     }
-    
+
     setNovoStatus = (status, codigoRastreamento) => {
         this.cleanState();
 
@@ -37,22 +36,22 @@ class DetalhesDaEntrega extends Component {
         )
     }
 
-    handleSubmit = (value) =>{
+    handleSubmit = (value) => {
         if(!value) return this.setState({ aviso: { status: false, msg: "Preencha o código de rastreamento corretamente" } });
         this.setNovoStatus("Atualização no Cód. de Rastreamento", value);
     }
 
     render(){
-     
+        
         const { pedido } = this.props;
         const { aviso } = this.state;
         if(!pedido) return <div></div>;
 
         const status = (pedido.registros || [])
-        .reduce((all, item) => item.tipo === 'entrega' ? all.concat([item.situacao]) : all, []);
-const { codigoRastreamento } = pedido.pedido.entrega;
-            return (
-                <div className="Detalhes-do-Entrega">
+                        .reduce((all, item) => item.tipo === 'entrega' ? all.concat([item.situacao]) : all, []);
+        const { codigoRastreamento } = pedido.pedido.entrega;
+        return (
+            <div className="Detalhes-do-Entrega">
                 <Titulo tipo="h3" titulo="Entrega" />
                 <AlertGeral aviso={aviso} />
                 <br />

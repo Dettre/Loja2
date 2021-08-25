@@ -5,13 +5,12 @@ import DetalhesDaEntrega from './DetalhesDaEntrega';
 import DetalhesDoPagamento from './DetalhesDoPagamento';
 
 import Voltar from '../../components/Links/Voltar';
-
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pedidos';
 
 class Pedido extends Component {
 
-    componentDidMount(){
+    componentWillMount(){
         const { usuario } = this.props;
         const { id } = this.props.match.params;
         if(!usuario) return null;
@@ -22,12 +21,11 @@ class Pedido extends Component {
         this.props.limparPedido();
     }
 
-
     render(){
         return (
             <div className="Pedidos full-width flex vertical">
                 <div className="Card">
-                    <Voltar path="/"/>
+                    <Voltar history={this.props.history} />
                     <DetalhesDoPedido />
                 </div>
                 <div className="flex horizontal">
@@ -46,5 +44,5 @@ class Pedido extends Component {
 const mapStateToProps = state => ({
     usuario: state.auth.usuario
 })
-export default connect(mapStateToProps, actions)(Pedido);
 
+export default connect(mapStateToProps, actions)(Pedido);

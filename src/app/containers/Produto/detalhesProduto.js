@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React,{ Component } from 'react';
 import Titulo from '../../components/Texto/Titulo';
 
 import Button from '../../components/Button/Simples';
 import { Link } from 'react-router-dom';
 
 import {TextoDados} from '../../components/Texto/Dados';
-import InputValor from '../../components/Inputs/InputValor';
 import InputSelect from '../../components/Inputs/Select';
+import InputValor from '../../components/Inputs/InputValor';
+
 import BlocoImagens from '../../components/Imagens/Bloco';
 
 import Voltar from '../../components/Links/Voltar';
@@ -15,9 +16,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/produtos';
 import AlertGeral from '../../components/Alert/Geral';
 
-
-
-class DetalhesProduto extends Component{
+class DetalhesProduto extends Component {
 
     generateStateProduto = (props) => ({
         nome: props.produto ? props.produto.titulo : "",
@@ -30,6 +29,7 @@ class DetalhesProduto extends Component{
         sku: props.produto ? props.produto.sku : "",
     });
 
+    
     constructor(props){
         super();
         this.state = {
@@ -39,14 +39,14 @@ class DetalhesProduto extends Component{
         }
     }
 
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if(
-            ( !prevProps.produto && this.props.produto ) ||
-            ( prevProps.produto && this.props.produto && 
-                prevProps.produto.updatedAt !== this.props.produto.updatedAt )
-        ) this.setState(this.generateStateProduto(this.props));
+            ( !this.props.produto && nextProps.produto ) ||
+            ( this.props.produto && nextProps.produto && 
+              this.props.produto.updatedAt !== nextProps.produto.updatedAt )
+        ) this.setState(this.generateStateProduto(nextProps));
     }
-    
+
     validate(){
         const { nome, descricao, categoria, preco, sku } = this.state;
         const erros = {};
@@ -94,7 +94,6 @@ class DetalhesProduto extends Component{
     }
 
     onChangeInput = (field, value) => this.setState({ [field]: value }, () => this.validate())
-
 
     renderDados(){
         const { nome, disponibilidade, descricao, categoria, preco, promocao, sku, erros } = this.state;
@@ -181,7 +180,8 @@ class DetalhesProduto extends Component{
                     }
                 });
             });
-        }  }
+        }
+    }
 
     handleUploadFoto = (ev) => {
         const { usuario, produto } = this.props;
@@ -215,22 +215,23 @@ class DetalhesProduto extends Component{
     render(){
         return (
             <div className="Detalhes-do-Produto">
-            <Voltar history={this.props.history} />
-            { this.renderCabecalho() }
-            <AlertGeral aviso={this.state.aviso} />
-            <br />
-            <div className="flex horizontal">
-                <div className="flex-1 flex vertical">
-                    { this.renderDados() }
-                </div>
-                <div className="flex-1 flex vertical">
-                    { this.renderImagens() }
+                <Voltar history={this.props.history} />
+                { this.renderCabecalho() }
+                <AlertGeral aviso={this.state.aviso} />
+                <br />
+                <div className="flex horizontal">
+                    <div className="flex-1 flex vertical">
+                        { this.renderDados() }
+                    </div>
+                    <div className="flex-1 flex vertical">
+                        { this.renderImagens() }
+                    </div>
                 </div>
             </div>
-        </div>
         )
     }
 }
+
 const mapStateToProps = state => ({
     produto: state.produto.produto,
     categorias: state.categoria.categorias,

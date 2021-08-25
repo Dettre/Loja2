@@ -25,16 +25,16 @@ class Perfil extends Component {
             erros: {}
         }
     }
-   
-    componentDidMount(){
+
+    componentWillMount(){
         this.props.getUser();
     }
-    componentDidUpdate(prevProps){
-        if( this.props.usuario && prevProps.usuario &&
-            this.props.usuario.updatedAt !== prevProps.usuario.updatedAt ){
+    componentDidUpdate(nextProps){
+        if( nextProps.usuario && this.props.usuario &&
+            nextProps.usuario.updatedAt !== this.props.usuario.updatedAt ){
             this.setState({
-                nome: this.props.usuario ? this.props.usuario.nome: "",
-                email: this.props.usuario ? this.props.usuario.email: "",
+                nome: nextProps.usuario ? nextProps.usuario.nome: "",
+                email: nextProps.usuario ? nextProps.usuario.email: "",
             });
         }
     }
@@ -148,19 +148,19 @@ class Perfil extends Component {
     render(){
         return (
             <div className="Perfil full-width">
-            <div className="Card">
-                { this.renderCabecalho() }
-                <AlertGeral aviso={this.state.aviso} />
-                <div className="flex horizontal">
-                    <div className="flex-1">
-                        { this.renderDadosConfiguracao() }
-                    </div>
-                    <div className="flex-1">
-                        { this.renderDadosSenha() }
+                <div className="Card">
+                    { this.renderCabecalho() }
+                    <AlertGeral aviso={this.state.aviso} />
+                    <div className="flex horizontal">
+                        <div className="flex-1">
+                            { this.renderDadosConfiguracao() }
+                        </div>
+                        <div className="flex-1">
+                            { this.renderDadosSenha() }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         )
     }
 }

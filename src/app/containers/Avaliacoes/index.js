@@ -15,14 +15,14 @@ class Avaliacoes extends Component {
         this.props.getAvaliacoes(produto._id, usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getAvaliacoes(this.props);
     }
-    componentDidUpdate(prevProps){
+    componentWillUpdate(nextProps){
         if( 
-            ( !prevProps.usuario || !prevProps.produto ) &&
-            this.props.usuario && this.props.produto
-        ) this.getAvaliacoes(this.props);
+            ( !this.props.usuario || !this.props.produto ) &&
+            nextProps.usuario && nextProps.produto
+        ) this.getAvaliacoes(nextProps);
     }
 
     render(){

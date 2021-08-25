@@ -1,14 +1,12 @@
 import React,{ Component } from 'react';
 
 import Titulo from '../../components/Texto/Titulo';
-
 import Tabela from '../../components/Tabela/Simples';
 
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import * as actions from '../../actions/categorias';
-
 
 class Categorias extends Component {
 
@@ -18,11 +16,11 @@ class Categorias extends Component {
         this.props.getCategorias(usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getCategorias();
     }
-    componentDidUpdate(prevProps){
-        if( !prevProps.usuario && this.props.usuario ) this.getCategorias();
+    componentWillUpdate(nextProps){
+        if( !this.props.usuario && nextProps.usuario ) this.getCategorias();
     }
 
     renderBotaoNovo(){
@@ -37,6 +35,7 @@ class Categorias extends Component {
     }
 
     render(){
+        
         const { categorias } = this.props;
 
         const dados = [];
@@ -48,23 +47,21 @@ class Categorias extends Component {
             });
         });
 
-
         return (
             <div className="Categorias full-width">
-            <div className="Card">
-                <Titulo tipo="h1" titulo="Categorias" />
-                <br />
-                { this.renderBotaoNovo() }
-                <br /><br />
-                <Tabela 
-                    cabecalho={["Categoria", "Qtd. de Produtos"]}
-                    dados={dados} />
+                <div className="Card">
+                    <Titulo tipo="h1" titulo="Categorias" />
+                    <br />
+                    { this.renderBotaoNovo() }
+                    <br /><br />
+                    <Tabela 
+                        cabecalho={["Categoria", "Qtd. de Produtos"]}
+                        dados={dados} />
+                </div>
             </div>
-        </div>
         )
     }
 }
-
 
 const mapStateToProps = state => ({
     categorias: state.categoria.categorias,
@@ -72,5 +69,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, actions)(Categorias);
-
-

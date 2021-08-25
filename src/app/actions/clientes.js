@@ -7,10 +7,8 @@ import {
     GET_CLIENTES,
     GET_CLIENTE,
     GET_CLIENTE_PEDIDOS,
-       REMOVE_CLIENTE,
-       LIMPAR_CLIENTE
-    
-    
+    REMOVE_CLIENTE,
+    LIMPAR_CLIENTE
 } from './types';
 
 export const getClientes = (atual, limit, loja) => {

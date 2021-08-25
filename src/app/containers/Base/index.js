@@ -3,15 +3,15 @@ import React from 'react';
 import BarraTopo from './BarraTopo';
 import Menu from './Menu';
 
-import { connect } from 'react-redux'
-import * as actions from '../../actions'
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
 class Dashboard extends React.Component {
     render(){
         return (
             <div className="flex horizontal full-height">
                 <div className="flex vertical">
-                  <Menu history={this.props.history}/>
+                    <Menu history={this.props.history} />
                 </div>
                 <div className="flex vertical full-width">
                     <div className="flex horizontal">
@@ -26,4 +26,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default connect (null, actions)(Dashboard) 
+export default connect(null, actions)(Dashboard);

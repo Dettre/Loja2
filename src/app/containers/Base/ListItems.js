@@ -11,14 +11,14 @@ const items = [
 ]
 
 const ListItems = ({ open, history }) => {
-  const localAtual = history.location.pathname;
+    const localAtual = history.location.pathname;
     return (
         <div className="items-wrapper">
             {
                 items.map((item, idx) => (
                     <Link to={item.rota} key={idx}>
-                           <div className={`menu-item ${ localAtual === item.rota ? "menu-item-active" : "" } flex horizontal`}>
-                             <div className="flex-1 flex flex-center">
+                        <div className={`menu-item ${ localAtual === item.rota ? "menu-item-active" : "" } flex horizontal`}>
+                            <div className="flex-1 flex flex-center">
                                 { item.icone }
                             </div>
                             { 
@@ -34,8 +34,7 @@ const ListItems = ({ open, history }) => {
                 ))
             }
         </div>
-    )
-        }
-        
+    );
+}
 
 export default ListItems;

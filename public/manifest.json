@@ -1,6 +1,6 @@
 {
-  "short_name": "DashBoard",
-  "name": "DashBoard",
+  "short_name": "Dashboard",
+  "name": "Dashboard",
   "icons": [ ],
   "start_url": ".",
   "display": "standalone",

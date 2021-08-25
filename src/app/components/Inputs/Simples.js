@@ -13,4 +13,3 @@ const InputSimples = ({ type, label, value, onChange, error }) => (
 )
 
 export default InputSimples;
-

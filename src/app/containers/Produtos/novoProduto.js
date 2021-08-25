@@ -29,11 +29,11 @@ class NovoProduto extends Component {
         if(usuario) getCategorias(usuario.loja);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getCategorias(this.props);
     }
-    componentDidUpdate(prevProps){
-        if( !prevProps.usuario && this.props.usuario ) this.getCategorias(this.props);
+    componentWillUpdate(nextProps){
+        if( !this.props.usuario && nextProps.usuario ) this.getCategorias(nextProps);
     }
 
     validate(){
@@ -142,27 +142,25 @@ class NovoProduto extends Component {
         )
     }
 
-
-render(){
-    return (
-        <div className="Novo-Produto full-width">
-            <div className="Card">
-                <Voltar history={this.props.history} />
-                { this.renderCabecalho() }
-                <AlertGeral aviso={this.state.aviso} />
-                <br />
-                <div className="flex horizontal">
-                    <div className="flex-1 flex vertical">
-                        { this.renderDados() }
+    render(){
+        return (
+            <div className="Novo-Produto full-width">
+                <div className="Card">
+                    <Voltar history={this.props.history} />
+                    { this.renderCabecalho() }
+                    <AlertGeral aviso={this.state.aviso} />
+                    <br />
+                    <div className="flex horizontal">
+                        <div className="flex-1 flex vertical">
+                            { this.renderDados() }
+                        </div>
+                        <div className="flex-1 flex vertical"></div>
                     </div>
-                    <div className="flex-1 flex vertical"></div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
-}
-
 
 const mapStateToProps = state => ({
     produto: state.produto.produto,

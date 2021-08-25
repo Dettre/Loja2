@@ -16,12 +16,12 @@ export default (state = {}, action) => {
                 ...state,
                 produto: action.payload.produto
             }
-            case LIMPAR_PRODUTO:
-                return {
-                    ...state,
-                    produto: null
-                }
-            default:
-                return state;
-        }
+        case LIMPAR_PRODUTO:
+            return {
+                ...state,
+                produto: null
+            }
+        default:
+            return state;
     }
+}
